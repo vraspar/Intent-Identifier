@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  ml:
+    build: .
+    # Mount the working directory as a bind mount
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+    # Add the deploy section to use GPUs
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+    stdin_open: true
+    tty: true
